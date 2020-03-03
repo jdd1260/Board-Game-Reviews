@@ -1,10 +1,9 @@
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
+const express = require("express");
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.use(express.static('public'))
+app.use(express.static("client/build"));
 
+app.get("/test/:id", (req, res) => res.json({ result: req.params.id }));
 
-app.get('/test', (req, res) => res.send('Hello World!'))
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

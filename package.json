@@ -4,12 +4,24 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "build": "cd client && yarn build && cd ..",
+    "start:server": "node app.js",
+    "start": "yarn build && yarn start:server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
