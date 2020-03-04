@@ -10,8 +10,12 @@ function App() {
 
   async function submit() {
     setIsFetching(true);
-    const r = await getTestObj(id);
-    setResult(r);
+    try {
+      const r = await getTestObj(id);
+      setResult(r);
+    } catch(e) {
+      setResult("Error: " + e.message);
+    }
     setIsFetching(false);
   }
 
