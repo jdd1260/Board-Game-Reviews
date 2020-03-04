@@ -8,12 +8,12 @@
     "start:server": "dotenv node app.js",
     "start": "yarn build && yarn start:server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create-db": "dotenv sequelize db:create",
-    "migrate-db": "dotenv sequelize db:migrate",
+    "create-db": "dotenv npx sequelize-cli db:create",
+    "migrate-db": "dotenv npx sequelize-cli db:migrate",
     "install-db": "sh server/db/setup-db.sh && npm run create-db ",
-    "new-migration": "sequelize migration:generate --name",
-    "undo-migration": "dotenv sequelize db:migrate:undo",
-    "run-seeds": "dotenv sequelize db:seed:all",
+    "new-migration": "npx sequelize-cli migration:generate --name",
+    "undo-migration": "dotenv npx sequelize-cli db:migrate:undo",
+    "run-seeds": "dotenv npx sequelize-cli db:seed:all",
     "update": "cd client && npm run build && cd .. && npm run migrate-db"
   },
   "author": "",
@@ -37,8 +37,7 @@
   "devDependencies": {
     "husky": "^4.2.3",
     "prettier": "1.19.1",
-    "pretty-quick": "^2.0.1",
-    "sequelize-cli": "^5.5.1"
+    "pretty-quick": "^2.0.1"
   },
   "husky": {
     "hooks": {
