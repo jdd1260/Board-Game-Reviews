@@ -14,7 +14,7 @@
     "new-migration": "sequelize migration:generate --name",
     "undo-migration": "dotenv sequelize db:migrate:undo",
     "run-seeds": "dotenv sequelize db:seed:all",
-    "update": "npm run build && npm run migrate-db"
+    "update": "cd client && npm run build && cd .. && npm run migrate-db"
   },
   "author": "",
   "license": "ISC",
