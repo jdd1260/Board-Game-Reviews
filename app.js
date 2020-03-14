@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 
 const m = require('./server/db/models/');
 
-app.use(express.static("client/build"));
+app.use(express.static("build"));
 
 app.get("/test/:id", async (req, res, next) => {
   try {
