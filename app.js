@@ -1,16 +1,22 @@
 const express = require("express");
-const app = express();
-const port = process.env.PORT || 3000;
+var cors = require('cors');
 
-const m = require('./server/db/models/');
+const app = express();
+app.use(cors());
+const port = process.env.API_PORT || 3000;
+
+const { getGame } = require("./server/api/games");
 
 app.use(express.static("build"));
 
-app.get("/test/:id", async (req, res, next) => {
+app.get("/api/games/:id", async (req, res, next) => {
   try {
-    const result = (await m.customQuery("SELECT * FROM test WHERE id=:id", { id: req.params.id }))[0];
-    if (result) {
-      res.json(result)
+    const game = await getGame(req.params.id);
+    if (game) {
+      game.designers = ['P1'];
+      game.mechanics = ['fun', 'long'];
+      game.categories = ['rpg', 'dice', 'cards'];
+      res.json(game)
     } else {
       res.sendStatus(404);
     }
