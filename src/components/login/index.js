@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form'
 
 import './index.scss';
 
-function Login({ setName }) {
+function Login({ setUser }) {
   const { register, handleSubmit } = useForm()
 
 
   function submit({ name }) {
-    setName(name);
+    setUser(name.trim());
   }
 
   return (
