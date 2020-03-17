@@ -1,4 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Board Game Geek Review Explorer
+
+For a class project, I am building a website to explore data from [BoardGameGeek](boardgamegeek.com). I am using data obtained from [Kaggle](https://www.kaggle.com/jvanelteren/boardgamegeek-reviews). The project loads game data and review data into a PostgreSQL databases, then uses a NodeJS Express HTTP server to create a REST API. This API is consumed by a website using [create-react-app](https://facebook.github.io/create-react-app).
+
+## Create the database
+
+Locally, I suggest using Docker with PostgreSQL, and you can run `sh server/db/setup-db.sh` to create a container for your database to live in. If you do that then the `.env-example` file can be copied to `.env` and you will have everything you need to connect your server to the database. If you go with a different location for your database you will need a `.env` file to match your specification. 
+
+## Create DB instance
+
+Once your database connection is configured, run `yarn && yarn create-db && yarn migrate-db` to create your database instance and tables that will be used. 
+
+## Populating Data
+
+Download the review data from Kaggle, and unzip the directory `boardgamegeek-reviews` into `scripts/`. Then you can run `cd scripts && node genGames.js && node genReviews.js`. This will create files for you in the `data` directory that can then be uploaded to your DB using your favorite DB admin tool (or the `COPY` command in PostgreSQL).
 
 ## Available Scripts
 
