@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import './index.scss';
 
 import { getGameInfo } from "../../api/games";
+import Reviews from "../reviews";
+
+function renderLinkList(items, field) {
+  return <React.Fragment>
+    { items.map(item => (
+    <React.Fragment key={item}>
+      <Link to={`/games?field=${field}&item=${item}`}>{item}</Link>,
+    </React.Fragment>
+  ))} 
+  </React.Fragment>
+}
 
 function Game() {
   const { gameId } = useParams();
@@ -27,24 +38,38 @@ function Game() {
               <td> { gameInfo.name } </td>
             </tr>
             <tr>
-              <td> URL </td>
-              <td> <a href={ gameInfo.url }> BGG Link </a> </td>
+              <td> Thumbnail </td>
+              <td> <img src={ gameInfo.thumbnail } alt={gameInfo.name} /> </td>
             </tr>
             <tr>
-              <td> Description </td>
-              <td> { gameInfo.description } </td>
+              <td> URL </td>
+              <td> 
+                <a 
+                  href={ 'https://www.boardgamegeek.com/boardgame/' + gameId } 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                > 
+                  BGG Link 
+                </a> 
+              </td>
             </tr>
             <tr>
               <td> Categories </td>
-              <td> { gameInfo.categories.join(', ') } </td>
+              <td> 
+                {renderLinkList(gameInfo.categories, 'category') } 
+              </td>
             </tr>
             <tr>
               <td> Designers </td>
-              <td> { gameInfo.designers.join(', ') } </td>
+              <td> 
+                {renderLinkList(gameInfo.designers, 'designer') } 
+              </td>
             </tr>
             <tr>
               <td> Mechanics </td>
-              <td> { gameInfo.mechanics.join(', ') } </td>
+              <td> 
+                {renderLinkList(gameInfo.mechanics, 'mechanic') } 
+              </td>            
             </tr>
             <tr>
               <td> BGG Rank </td>
@@ -78,9 +103,14 @@ function Game() {
               <td> Minimum Age </td>
               <td> { gameInfo.min_age } </td>
             </tr>
+            <tr>
+              <td> Description </td>
+              <td dangerouslySetInnerHTML={ { __html: gameInfo.description }} /> 
+            </tr>
           </tbody>
         </table>
       }
+      <Reviews />
     </div>
   )
 }
