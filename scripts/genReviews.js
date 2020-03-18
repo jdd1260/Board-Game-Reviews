@@ -3,6 +3,8 @@ const writeCSV = require('@fast-csv/format').format;
 const toNum = require('lodash/toNumber');
 const fs = require('fs');
 
+const badGameIds = ['260986', '204617'];
+
 const reviewsFile = fs.createWriteStream("../data/reviews.csv");
 const reviewsStream = writeCSV({ headers: true });
 reviewsStream.pipe(reviewsFile);
@@ -26,10 +28,10 @@ function parseReviews() {
       const formatted = {
         reviewerId: data.user,
         gameId: data.ID,
-        rating: toNumber(data.rating),
+        rating: Math.round(toNumber(data.rating)),
         comment: data.comment   
       }
-      if (formatted.comment) {
+      if (formatted.comment && !badGameIds.includes(formatted.gameId)) {
         reviewers[data.user] = { id: data.user, name: data.user };
         reviewsStream.write(formatted);
       }
