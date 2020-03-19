@@ -10,31 +10,26 @@ import './index.scss';
 import Login from "../login";
 import Game from "../game";
 import GameList from "../gameList";
+import { getUser, logOut } from "../../api";
 
-const storageName = 'userName';
 
 function App({ router }) {
   const Router = router || BrowserRouter;
 
-  const [user, setUser] = useState(localStorage.getItem(storageName));
+  const [user, setUser] = useState(getUser());
 
-  function storeUser(name) {
-    if (name) {
-      localStorage.setItem(storageName, name);
-      setUser(name);
-    } else {
-      localStorage.removeItem(storageName);
-      setUser(undefined);
-    }
+  const logOutUser = () => {
+    logOut();
+    setUser(undefined);
   }
 
   if (!user) {
-    return <Login setUser={storeUser} />;
+    return <Login setUser={setUser} />;
   } else {
     return (
       <div className="App">
         <header>
-          Hi, { user }! <button onClick={() => storeUser()}> Log Out </button>
+          Hi, { user }! <button onClick={logOutUser}> Log Out </button>
         </header>
         <Router>
           <Switch>

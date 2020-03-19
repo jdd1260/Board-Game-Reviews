@@ -8,8 +8,31 @@ const port = process.env.API_PORT || 3000;
 
 const { getGame, getGames } = require("./server/api/games");
 const { getReviews } = require("./server/api/reviews");
+const { getUsers } = require("./server/api/users");
 
 app.use(express.static("build"));
+
+const allowedUsersPromise = getUsers();
+
+app.use(async (req, res, next) => {
+  const allowedUsers = await allowedUsersPromise;
+  const userName = req.headers.authorization;
+  const matchingUser = allowedUsers.find(u => u.name === userName)
+  if (matchingUser) {
+    req.user = matchingUser.id;
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+app.get("/api/ping", async (req, res, next) => {
+  if (!req.user) {
+    res.sendStatus(401);
+  } else {
+    res.sendStatus(200);
+  }
+});
 
 app.get("/api/games/:id", async (req, res, next) => {
   try {

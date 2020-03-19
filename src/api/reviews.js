@@ -1,5 +1,5 @@
-import api from '.';
+import getApi from '.';
 
 export function getReviews({ id, gameId, reviewerId }) {
-  return api.get("/reviews", { params: { id, gameId, reviewerId }}).then((r => r.data));
+  return getApi().get("/reviews", { params: { id, gameId, reviewerId }}).then((r => r.data));
 }
