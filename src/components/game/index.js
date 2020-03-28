@@ -110,7 +110,8 @@ function Game() {
           </tbody>
         </table>
       }
-      <Reviews />
+      <h2> Reviews </h2>
+      <Reviews gameId={gameId} />
     </div>
   )
 }

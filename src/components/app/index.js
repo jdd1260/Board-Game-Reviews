@@ -10,6 +10,7 @@ import './index.scss';
 import Login from "../login";
 import Game from "../game";
 import GameList from "../gameList";
+import Flags from "../flags";
 import { getUser, logOut } from "../../api";
 
 
@@ -38,8 +39,13 @@ function App({ router }) {
             </Route>
           </Switch>
           <Switch>
-            <Route path={`/games`}>
+            <Route exact default path={`/games`}>
               <GameList />
+            </Route>
+          </Switch>
+          <Switch>
+            <Route exact path={`/flags`}>
+              <Flags />
             </Route>
           </Switch>
         </Router>

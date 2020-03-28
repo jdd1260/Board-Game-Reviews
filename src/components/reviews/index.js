@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from 'react';
 // import './index.scss';
 
 import Review from "../review";
 import { getReviews } from "../../api/reviews";
 
-function Reviews() {
-  const { gameId } = useParams();
+function Reviews({ gameId, reviewerId, hideReviewer }) {
   const [reviews, setReviews] = useState();
 
+  const fetchReviews = useCallback(async () => {
+    setReviews(undefined);
+    const data = await getReviews({ gameId, reviewerId });
+    setReviews(data);
+  }, [gameId, reviewerId]);
+
   useEffect(() => {
-    async function fetchReviews() {
-      setReviews(undefined);
-      const data = await getReviews({ gameId });
-      setReviews(data);
-    }
     fetchReviews();
-  }, [gameId]);
+  }, [fetchReviews]);
 
   return (
     <div className="Reviews">
-      <h2> Reviews: { gameId } </h2>
       { reviews &&
-        reviews.map(r => <Review key={r.id} review={r} />)
+        reviews.map(r => <Review key={r.id} review={r} reload={fetchReviews} hideReviewer={hideReviewer} />)
       }
     </div>
   )

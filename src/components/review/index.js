@@ -2,22 +2,36 @@ import React from 'react';
 
 // import './index.scss';
 
-const Review = ({ review }) => (
+import { flagReview, flagReviewer } from '../../api/flags';
+
+const Review = ({ review, reload, hideReviewer }) => (
   <div className="Review">
     { review && (
-      <table>
+      <table border="1">
         <tbody>
-          <tr>
-            <td>Game</td>
-            <td>{review.game}</td>
-          </tr>
-          <tr>
-            <td>Reviewer</td>
-            <td>{review.reviewer}</td>
-          </tr>
+          { !hideReviewer && 
+            <tr>
+              <td>Reviewer</td>
+              <td>
+                {review.reviewerId} 
+                <button onClick={() => flagReviewer(review.reviewerId).then(reload)} > Flag Reviewer </button>
+                <button onClick={() => flagReview(review.id).then(reload)} > Flag Review </button>
+              </td>
+            </tr>
+          }
+          { hideReviewer &&
+            <tr>
+              <td>Game</td>
+              <td>
+                {review.gameName} 
+              </td>
+            </tr>
+          }
           <tr>
             <td>Rating</td>
-            <td>{review.rating}</td>
+            <td>
+              {review.rating}
+            </td>
           </tr>
           <tr>
             <td>Comment</td>
@@ -25,7 +39,6 @@ const Review = ({ review }) => (
           </tr>
         </tbody>
       </table>
-
     )}
   </div>
 );
