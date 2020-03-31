@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 const port = process.env.API_PORT || 3000;
 
-const { getGame, getGames } = require("./server/api/games");
+const { createView, getGame, getGames } = require("./server/api/games");
 const { getReviews } = require("./server/api/reviews");
 const { getUsers } = require("./server/api/users");
 const { getReviewFlags, flagReview, getReviewerFlags, flagReviewer, deleteReviewFlag, deleteReviewerFlag } = require("./server/api/flags");
@@ -33,13 +33,14 @@ app.get("/api/ping", async (req, res, next) => {
   if (!req.user) {
     res.sendStatus(401);
   } else {
+    await createView(req.user);
     res.sendStatus(200);
   }
 });
 
 app.get("/api/games/:id", async (req, res, next) => {
   try {
-    const game = await getGame(req.params.id);
+    const game = await getGame(req.params.id, req.user);
     if (game) {
       res.json(game)
     } else {
@@ -54,13 +55,15 @@ app.get("/api/games", async (req, res, next) => {
   try {
     const { sortBy, sortDescending, page, category, designer, mechanic } = req.query;
     const game = await getGames({ 
-      sortBy, 
-      sortDescending, 
-      page: page && toNumber(page),
-      category, 
-      designer, 
-      mechanic 
-    });
+        sortBy, 
+        sortDescending, 
+        page: page && toNumber(page),
+        category, 
+        designer, 
+        mechanic 
+      }, 
+      req.user, 
+    );
     if (game) {
       res.json(game)
     } else {

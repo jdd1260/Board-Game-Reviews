@@ -10,16 +10,17 @@ function GameList() {
   const { field, item } = parse(search, { ignoreQueryPrefix: true });
 
   const [games, setGames] = useState([]);
+  const [useCustomRanking, setUseCustomRanking] = useState(false);
   const [page, setPage] = useState(0);
 
   useEffect(() => {
     async function fetchGameInfo() {
       setGames([]);
-      const list = await getGames({ field, item, page });
+      const list = await getGames({ field, item, page }, useCustomRanking);
       setGames(list);
     }
     fetchGameInfo();
-  }, [field, item, page]);
+  }, [field, item, page, useCustomRanking]);
 
   return (
     <div className="GameList">
@@ -28,11 +29,13 @@ function GameList() {
         `${ field}: ${item}`
         : 'Games'
       }</h2>
-      <Link to="/games">Reset</Link>
+      <Link to="/games">Reset</Link> <br/>
+      Use Custom Ranking? { useCustomRanking ? 'Yes' : 'No' } 
+      <button onClick={() => setUseCustomRanking(!useCustomRanking)}>Toggle</button>
       <table>
         <thead>
           <tr>
-            <th> BGG Rank </th>
+            <th> { useCustomRanking ? 'Custom Rank' : 'BGG Rank' } </th>
             <th> Game </th>
             <th></th>
           </tr>
@@ -40,7 +43,7 @@ function GameList() {
         <tbody>
           { games && games.map(game => (
             <tr key={game.id}>
-              <td> {game.bgg_rank } </td>
+              <td> { useCustomRanking ? game.custom_rank : game.bgg_rank } </td>
               <td> <Link to={'/games/' + game.id} > {game.name} </Link></td>
               <td> <img width="60" src={ game.thumbnail } alt={game.name} /> </td>
             </tr>
