@@ -34,19 +34,13 @@ function App({ router }) {
         </header>
         <Router>
           <Switch>
-            <Route path={`/games/:gameId`}>
-              <Game />
-            </Route>
+            <Route path={`/games/:gameId`} component={Game} />
           </Switch>
           <Switch>
-            <Route exact default path={`/games`}>
-              <GameList />
-            </Route>
+            <Route exact default path={`/games`} component={GameList} />
           </Switch>
           <Switch>
-            <Route exact path={`/flags`}>
-              <Flags />
-            </Route>
+            <Route exact path={`/flags`} component={Flags} />
           </Switch>
         </Router>
       </div>
