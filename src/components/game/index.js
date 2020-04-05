@@ -72,6 +72,18 @@ function Game() {
               </td>            
             </tr>
             <tr>
+              <td> Your Custom Rank </td>
+              <td> { gameInfo.custom_rank } </td>
+            </tr>
+            <tr>
+              <td> Your Custom Average </td>
+              <td> { gameInfo.custom_avg } </td>
+            </tr>
+            <tr>
+              <td> Your Custom Number of Reviews </td>
+              <td> { gameInfo.review_count } </td>
+            </tr>
+            <tr>
               <td> BGG Rank </td>
               <td> { gameInfo.bgg_rank } </td>
             </tr>
