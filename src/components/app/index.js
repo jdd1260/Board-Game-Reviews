@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  BrowserRouter,
+  HashRouter,
   Switch,
   Route
 } from "react-router-dom";
@@ -15,7 +15,7 @@ import { getUser, logOut } from "../../api";
 
 
 function App({ router }) {
-  const Router = router || BrowserRouter;
+  const Router = router || HashRouter;
 
   const [user, setUser] = useState(getUser());
 
