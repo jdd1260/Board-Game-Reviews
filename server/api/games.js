@@ -68,7 +68,7 @@ module.exports.createView = function(userId) {
       ) 
       SELECT *, RANK() OVER (ORDER BY custom_avg DESC) custom_rank FROM scores
     ) WITH DATA;
-    CREATE INDEX game_rankings_${userId}_pkey ON game_rankings_${userId} ("gameId");
+    CREATE INDEX IF NOT EXISTS game_rankings_${userId}_pkey ON game_rankings_${userId} ("gameId");
   `;
   return db.customQuery(statement, { userId, ...customParams });
 }
