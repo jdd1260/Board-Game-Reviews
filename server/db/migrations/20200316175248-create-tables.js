@@ -1,8 +1,12 @@
-'use strict';
+"use strict";
+
+const _ = require("lodash");
+
+const numPartitions = 10;
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.sequelize.query(`
+    const statement = `
     CREATE TABLE "game" (
       "id" VARCHAR(255) NOT NULL,
       "name" VARCHAR(255) NOT NULL,
@@ -72,10 +76,18 @@ module.exports = {
       "gameId" VARCHAR(255) NOT NULL REFERENCES "game"("id"),
       "rating" integer NOT NULL,
       "comment" TEXT,
-      CONSTRAINT "review_pk" PRIMARY KEY ("id")
-    ) WITH (
+      CONSTRAINT "review_pk" PRIMARY KEY ("gameId", "id")
+    ) PARTITION BY HASH ("gameId")
+    WITH (
       OIDS=FALSE
     );
+
+    ${_.times(
+      numPartitions,
+      i => `
+    CREATE TABLE review_${i} PARTITION OF review FOR VALUES WITH (MODULUS ${numPartitions}, REMAINDER ${i});  
+    `
+    ).join("\n")} 
     
     CREATE TABLE "flagged_reviewer" (
       "id" serial NOT NULL,
@@ -88,18 +100,24 @@ module.exports = {
     
     CREATE TABLE "flagged_review" (
       "id" serial NOT NULL,
-      "reviewId" INT NOT NULL REFERENCES "review"("id"),
+      "reviewId" INT NOT NULL,
       "userId" INT NOT NULL REFERENCES "user"("id"),
       CONSTRAINT "flagged_review_pk" PRIMARY KEY ("id")
     ) WITH (
       OIDS=FALSE
     );
-    `, { type: Sequelize.QueryTypes.RAW });
+    `;
+    return queryInterface.sequelize.query(statement, {
+      type: Sequelize.QueryTypes.RAW
+    });
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.sequelize.query(`
+    return queryInterface.sequelize.query(
+      `
       DROP TABLE "flagged_review", "flagged_reviewer", "review", "reviewer", "user", "game_category", "game_designer", "game_mechanic", "game";
-    `, { type: Sequelize.QueryTypes.RAW });
+    `,
+      { type: Sequelize.QueryTypes.RAW }
+    );
   }
 };
