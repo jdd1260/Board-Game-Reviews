@@ -81,7 +81,7 @@ module.exports.getGames = async function(
 
 module.exports.createView = function(userId) {
   const statement = `
-    CREATE MATERIALIZED VIEW game_rankings_${userId} AS (
+    CREATE MATERIALIZED VIEW IF NOT EXISTS game_rankings_${userId} AS (
       WITH scores AS (
         SELECT 
           "gameId", 

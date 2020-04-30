@@ -1,8 +1,16 @@
 .App {
   font-size: 18px;
 
-  header {
-    text-align: right;
+  .header {
+    a { 
+      text-decoration: none;
+      color: white;
+    }
+    .logout {
+      position: absolute;
+      right: 20px;
+      height: 100%;
+    }
   }
 
   input, button {
