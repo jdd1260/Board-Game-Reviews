@@ -44,7 +44,7 @@ app.get("/api/ping", async (req, res, next) => {
   if (!req.user) {
     res.sendStatus(401);
   } else {
-    createView(req.user);
+    await createView(req.user);
     res.sendStatus(200);
   }
 });
