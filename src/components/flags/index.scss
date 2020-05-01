@@ -1,5 +1,15 @@
 .Flags {
+  margin: 25px;
+  max-width: 900px;
   td, th {
+    font-size: .8em;
     vertical-align: top;
+  }
+  th {
+    font-weight: bold;
+  }
+
+  button {
+    min-width: 125px;
   }
 }

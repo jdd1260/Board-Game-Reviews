@@ -1,9 +1,14 @@
 #Game {
   margin: 20px 35px;
+  max-width: 1000px;
 
   table {
     td {
       font-size: .9em;
     }
+  }
+
+  .reviews-container {
+    max-width: 900px;
   }
 }

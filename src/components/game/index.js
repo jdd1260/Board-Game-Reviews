@@ -131,7 +131,9 @@ function Game() {
         </TableContainer>
       }
       <h2> Reviews </h2>
-      <Reviews gameId={gameId} />
+      <div className="reviews-container">
+        <Reviews gameId={gameId} />
+      </div>
     </div>
   )
 }
