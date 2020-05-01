@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
-// import './index.scss';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+
+import './index.scss';
 
 import { getGameInfo } from "../../api/games";
 import Reviews from "../reviews";
 
 function renderLinkList(items, field) {
   return <React.Fragment>
-    { items.map(item => (
+    { items.map((item, index) => (
     <React.Fragment key={item}>
-      <Link to={`/games?field=${field}&item=${item}`}>{item}</Link>,
+      {index > 0 && ', '}<Link to={`/games?field=${field}&item=${item}`}>{item}</Link>
     </React.Fragment>
   ))} 
   </React.Fragment>
@@ -29,98 +35,100 @@ function Game() {
   }, [gameId]);
 
   return (
-    <div className="Game">
+    <div id="Game">
       { gameInfo &&
-        <table>
-          <tbody>
-            <tr>
-              <td> Name </td>
-              <td> { gameInfo.name } </td>
-            </tr>
-            <tr>
-              <td> Thumbnail </td>
-              <td> <img src={ gameInfo.thumbnail } alt={gameInfo.name} /> </td>
-            </tr>
-            <tr>
-              <td> URL </td>
-              <td> 
-                <a 
-                  href={ 'https://www.boardgamegeek.com/boardgame/' + gameId } 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                > 
-                  BGG Link 
-                </a> 
-              </td>
-            </tr>
-            <tr>
-              <td> Categories </td>
-              <td> 
-                {renderLinkList(gameInfo.categories, 'category') } 
-              </td>
-            </tr>
-            <tr>
-              <td> Designers </td>
-              <td> 
-                {renderLinkList(gameInfo.designers, 'designer') } 
-              </td>
-            </tr>
-            <tr>
-              <td> Mechanics </td>
-              <td> 
-                {renderLinkList(gameInfo.mechanics, 'mechanic') } 
-              </td>            
-            </tr>
-            <tr>
-              <td> Your Custom Rank </td>
-              <td> { gameInfo.custom_rank } </td>
-            </tr>
-            <tr>
-              <td> Your Custom Average </td>
-              <td> { gameInfo.custom_avg } </td>
-            </tr>
-            <tr>
-              <td> Your Custom Number of Reviews </td>
-              <td> { gameInfo.review_count } </td>
-            </tr>
-            <tr>
-              <td> BGG Rank </td>
-              <td> { gameInfo.bgg_rank } </td>
-            </tr>
-            <tr>
-              <td> BGG Average </td>
-              <td> { gameInfo.bgg_average } </td>
-            </tr>
-            <tr>
-              <td> BGG Median </td>
-              <td> { gameInfo.bgg_median } </td>
-            </tr>
-            <tr>
-              <td> BGG Number of Reviews </td>
-              <td> { gameInfo.bgg_num_reviews } </td>
-            </tr>
-            <tr>
-              <td> BGG Score </td>
-              <td> { gameInfo.bgg_score } </td>
-            </tr>
-            <tr>
-              <td> Play Time (average/min/max) </td>
-              <td> { gameInfo.play_time } / { gameInfo.min_play_time } / { gameInfo.max_play_time } </td>
-            </tr>
-            <tr>
-              <td> Number of Players (min/max) </td>
-              <td> { gameInfo.min_players } / { gameInfo.max_players } </td>
-            </tr>
-            <tr>
-              <td> Minimum Age </td>
-              <td> { gameInfo.min_age } </td>
-            </tr>
-            <tr>
-              <td> Description </td>
-              <td dangerouslySetInnerHTML={ { __html: gameInfo.description }} /> 
-            </tr>
-          </tbody>
-        </table>
+        <TableContainer>
+          <Table size="small">
+            <TableBody>
+              <TableRow>
+                <TableCell> Name </TableCell>
+                <TableCell> { gameInfo.name } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Thumbnail </TableCell>
+                <TableCell> <img src={ gameInfo.thumbnail } alt={gameInfo.name} /> </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> URL </TableCell>
+                <TableCell> 
+                  <a 
+                    href={ 'https://www.boardgamegeek.com/boardgame/' + gameId } 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  > 
+                    BGG Link 
+                  </a> 
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Categories </TableCell>
+                <TableCell> 
+                  {renderLinkList(gameInfo.categories, 'category') } 
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Designers </TableCell>
+                <TableCell> 
+                  {renderLinkList(gameInfo.designers, 'designer') } 
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Mechanics </TableCell>
+                <TableCell> 
+                  {renderLinkList(gameInfo.mechanics, 'mechanic') } 
+                </TableCell>            
+              </TableRow>
+              <TableRow>
+                <TableCell> Your Custom Rank </TableCell>
+                <TableCell> { gameInfo.custom_rank } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Your Custom Average </TableCell>
+                <TableCell> { gameInfo.custom_avg } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Your Custom Number of Reviews </TableCell>
+                <TableCell> { gameInfo.review_count } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> BGG Rank </TableCell>
+                <TableCell> { gameInfo.bgg_rank } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> BGG Average </TableCell>
+                <TableCell> { gameInfo.bgg_average } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> BGG Median </TableCell>
+                <TableCell> { gameInfo.bgg_median } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> BGG Number of Reviews </TableCell>
+                <TableCell> { gameInfo.bgg_num_reviews } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> BGG Score </TableCell>
+                <TableCell> { gameInfo.bgg_score } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Play Time (average/min/max) </TableCell>
+                <TableCell> { gameInfo.play_time } / { gameInfo.min_play_time } / { gameInfo.max_play_time } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Number of Players (min/max) </TableCell>
+                <TableCell> { gameInfo.min_players } / { gameInfo.max_players } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Minimum Age </TableCell>
+                <TableCell> { gameInfo.min_age } </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell> Description </TableCell>
+                <td dangerouslySetInnerHTML={ { __html: gameInfo.description }} /> 
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       }
       <h2> Reviews </h2>
       <Reviews gameId={gameId} />
