@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from "react-router-dom";
 import { parse } from "qs";
-// import './index.scss';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+
+import './index.scss';
 
 import { getGames } from "../../api/games";
 
@@ -23,38 +35,58 @@ function GameList() {
   }, [field, item, page, useCustomRanking]);
 
   return (
-    <div className="GameList">
-      <h2>
-      { field ? 
-        `${ field}: ${item}`
-        : 'Games'
-      }</h2>
-      <Link to="/games">Reset</Link> <br/>
-      Use Custom Ranking? { useCustomRanking ? 'Yes' : 'No' } 
-      <button onClick={() => setUseCustomRanking(!useCustomRanking)}>Toggle</button>
-      <table>
-        <thead>
-          <tr>
-            <th> { useCustomRanking ? 'Custom Rank' : 'BGG Rank' } </th>
-            <th> Game </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          { games && games.map(game => (
-            <tr key={game.id}>
-              <td> { useCustomRanking ? game.custom_rank : game.bgg_rank } </td>
-              <td> <Link to={'/games/' + game.id} > {game.name} </Link></td>
-              <td> <img width="60" src={ game.thumbnail } alt={game.name} /> </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div id="GameList">
       <div>
-        <button onClick={ () => setPage(0) } >Go to Page 0</button>
-          { page > 0 && <button onClick={ () => setPage(page - 1) } >Go to Prev Page</button> }
-        Page { page }
-        <button onClick={ () => setPage(page + 1) } >Go to Next Page</button>
+      <h2 className="title">
+        { field ? 
+          `${ field}: ${item}`
+          : 'All Games'
+        }
+        {
+          field && <Link className="resetLink" to="/games">Reset</Link>
+        }
+      </h2>
+      <h3 className="title switch">
+        Use Custom Ranking?
+        <Switch
+          checked={useCustomRanking}
+          onChange={() => setUseCustomRanking(!useCustomRanking)}
+        />
+      </h3>
+      </div>
+      <TableContainer>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell> { useCustomRanking ? 'Custom Rank' : 'BGG Rank' } </TableCell>
+              <TableCell> Game </TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { games && games.map(game => (
+              <TableRow key={game.id}>
+                <TableCell> { useCustomRanking ? game.custom_rank : game.bgg_rank } </TableCell>
+                <TableCell> <Link to={'/games/' + game.id} > {game.name} </Link></TableCell>
+                <TableCell> <img width="60" src={ game.thumbnail } alt={game.name} /> </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div className="buttons">
+        <Button variant="contained" color="primary" onClick={ () => setPage(0) }>
+          <FirstPageIcon/>
+        </Button>
+        { page > 0 && 
+          <Button variant="contained" color="primary" onClick={ () => setPage(page - 1) } >
+            <NavigateBeforeIcon/>
+          </Button>
+        }
+        Page { page + 1 }
+        <Button variant="contained" color="primary" onClick={ () => setPage(page + 1) } >
+          <NavigateNextIcon/>
+        </Button>
       </div>
     </div>
   )

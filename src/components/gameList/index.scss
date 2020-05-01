@@ -1,0 +1,34 @@
+#GameList {
+  margin: 20px 35px;
+  max-width: 800px;
+
+  .title {
+    text-transform: capitalize;
+    display: inline-block;
+    &.switch {
+      width: 50%;
+      text-align: right;
+    }
+    .resetLink {
+      margin-left: 15px;
+    }
+  }
+
+  table{
+    td, th {
+      font-size: 1em;
+    }
+    th { 
+      font-weight: bold;
+    }
+  }
+
+  .buttons {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    > * {
+      margin: 7px;
+    }
+  }
+}
