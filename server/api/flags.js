@@ -11,7 +11,7 @@ function refreshView(userId) {
 module.exports.getReviewFlags = function(userId) {
   return db.customQuery(`
     SELECT review.*, game.name as "gameName" FROM flagged_review 
-    JOIN review ON flagged_review."reviewId"=review.id
+    JOIN review ON flagged_review."reviewId"=review.id AND flagged_review."gameId"=review."gameId"
     JOIN game ON review."gameId"=game.id
     WHERE flagged_review."userId"=:userId
   `, { userId } )
