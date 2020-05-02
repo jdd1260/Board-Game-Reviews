@@ -29,7 +29,7 @@ const Review = ({ review, reload, hideReviewer }) => (
     <TableCell>
       <div dangerouslySetInnerHTML={ { __html: review.comment }} />
       <div className="flag">
-        <Fab size="small" color="secondary" onClick={ () => flagReview(review.id).then(reload) }>
+        <Fab size="small" color="secondary" onClick={ () => flagReview(review.id, review.gameId).then(reload) }>
           <FlagIcon/>
         </Fab>
       </div>

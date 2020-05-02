@@ -3,7 +3,7 @@ const compact = require('lodash/compact');
 
 module.exports = {};
 module.exports.getReviews = async function(params, userId) {
-  let whereClause = compact(['id', 'gameId', 'reviewerId'].map(field => params[field] && `"${field}" = :${field}`)).join(', ');
+  let whereClause = compact(['id', 'gameId', 'reviewerId'].map(field => params[field] && `review."${field}" = :${field}`)).join(', ');
   if (!whereClause) {
     throw new Error("You must provide at least one of id, gameId, and reviewerId");
   }

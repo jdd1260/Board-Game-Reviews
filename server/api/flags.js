@@ -13,15 +13,15 @@ module.exports.getReviewFlags = function(userId) {
     SELECT review.*, game.name as "gameName" FROM flagged_review 
     JOIN review ON flagged_review."reviewId"=review.id
     JOIN game ON review."gameId"=game.id
-    WHERE flagged_review."userId"=1
+    WHERE flagged_review."userId"=:userId
   `, { userId } )
 }
 
-module.exports.flagReview = function(reviewId, userId) {
+module.exports.flagReview = function(reviewId, gameId, userId) {
   return db.customQuery(`
-    INSERT INTO flagged_review ("reviewId", "userId")
-    VALUES (:reviewId, :userId)
-  `, { reviewId, userId } ).then(() => refreshView(userId));
+    INSERT INTO flagged_review ("reviewId", "userId", "gameId")
+    VALUES (:reviewId, :userId, :gameId)
+  `, { reviewId, userId, gameId } ).then(() => refreshView(userId));
 }
 
 module.exports.deleteReviewFlag = function(reviewId, userId) {

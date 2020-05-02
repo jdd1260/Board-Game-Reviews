@@ -1,7 +1,7 @@
 import getApi from '.';
 
-export function flagReview(reviewId) {
-  return getApi().post("/flags/reviews/" + reviewId).then((r => r.data));
+export function flagReview(reviewId, gameId) {
+  return getApi().post("/flags/games/" + gameId + "/reviews/" + reviewId).then((r => r.data));
 }
 
 export function deleteReviewFlag(reviewId) {

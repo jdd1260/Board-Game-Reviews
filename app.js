@@ -115,9 +115,9 @@ app.get("/api/flags/reviews", async (req, res, next) => {
   }
 });
 
-app.post("/api/flags/reviews/:reviewId", async (req, res, next) => {
+app.post("/api/flags/games/:gameId/reviews/:reviewId", async (req, res, next) => {
   try {
-    await flagReview(req.params.reviewId, req.user);
+    await flagReview(req.params.reviewId, req.params.gameId, req.user);
     res.sendStatus(200);
   } catch (e) {
     next(e);
