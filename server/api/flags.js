@@ -4,7 +4,7 @@ module.exports = {};
 
 function refreshView(userId) {
   db.customQuery(`
-    REFRESH MATERIALIZED VIEW game_rankings_${userId}
+    REFRESH MATERIALIZED VIEW CONCURRENTLY game_rankings_${userId}
   `);
 }
 
