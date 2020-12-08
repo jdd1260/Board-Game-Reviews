@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@fast-csv/format": "^4.1.2",
-    "@fast-csv/parse": "^4.1.2",
+    "@fast-csv/parse": "^4.3.6",
     "@storybook/addon-actions": "^5.3.17",
     "@storybook/addon-links": "^5.3.17",
     "@storybook/addons": "^5.3.17",
